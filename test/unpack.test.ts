@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { unpack } from '../src'
+import { unpack } from '../dist/unpack'
 
 describe('unpack', () => {
   it('should unpack simple strings', () => {
@@ -13,6 +13,7 @@ describe('unpack', () => {
     const formData = new FormData()
     formData.append('nested.foo', 'hello')
     const object = unpack(formData)
+    console.log(object)
     expect(object).toEqual({ nested: { foo: 'hello' } })
   })
 

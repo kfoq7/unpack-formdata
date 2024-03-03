@@ -16,7 +16,7 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
 
     keys.forEach((nestedKey, index) => {
       if (!object[nestedKey]) {
-        object[nestedKey] = parseInt(keys[index + 1]) ? {} : []
+        object[nestedKey] = isNaN(Number(keys[index + 1])) ? {} : []
       }
 
       index === keys.length - 1 ? (object[nestedKey] = value) : (object = object[nestedKey])

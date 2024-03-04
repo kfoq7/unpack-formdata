@@ -24,8 +24,14 @@ export type FormDataDetail = {
   numbers: FormDataInput
 }
 
+/**
+ * Keys from FromDataDetail
+ */
 export type TypesFormDataDetail = keyof FormDataDetail
 
+/**
+ * Merge options with FormDataDetail
+ */
 export type UnpackOptions = Options & {
   resolutions?: Partial<FormDataDetail>
 }
@@ -33,7 +39,7 @@ export type UnpackOptions = Options & {
 /**
  * Unpack the entries from FormData API.
  *
- * @param formData The FormData instance or the event.currentElement.
+ * @param formData The FormData instance
  * @param options Set the input types
  * @returns Returns the unpacked data
  */
@@ -63,3 +69,5 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
 
   return output
 }
+
+export default unpack

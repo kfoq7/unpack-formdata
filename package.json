@@ -1,7 +1,7 @@
 {
   "name": "unpack-formdata",
   "description": "Unpack FormData API into a JavaScript object.",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "author": "@kfoq7",
   "license": "MIT",
   "keywords": [],

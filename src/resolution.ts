@@ -1,4 +1,5 @@
 import { type TypesFormDataDetail, type FormDataDetail } from './unpack'
+import { parseDate } from './date'
 import { objectEntries, replacePatter } from './utils'
 
 /**
@@ -14,10 +15,10 @@ export function getResolution(
 ): TypesFormDataDetail | undefined {
   if (!resolutions) return undefined
 
+  const __path = replacePatter(path)
+
   for (const [resolution, pathKeys] of objectEntries(resolutions)) {
     if (!pathKeys) return undefined
-
-    const __path = replacePatter(path)
 
     if (
       (typeof pathKeys === 'string' && __path === pathKeys) ||
@@ -31,4 +32,5 @@ export function applyResolution(value: any, resolution: TypesFormDataDetail) {
   if (resolution === 'booleans') return Boolean(value)
   if (resolution === 'numbers') return Number(value)
   if (resolution === 'files' && value instanceof File && value.size) return value
+  if (resolution === 'dates') return parseDate(value)
 }

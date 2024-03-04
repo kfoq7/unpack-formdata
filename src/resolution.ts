@@ -1,5 +1,5 @@
 import { type TypesFormDataDetail, type FormDataDetail } from './unpack'
-import { objectEntries } from './utils'
+import { objectEntries, replacePatter } from './utils'
 
 /**
  * Look for current resolution type of value.
@@ -17,16 +17,18 @@ export function getResolution(
   for (const [resolution, pathKeys] of objectEntries(resolutions)) {
     if (!pathKeys) return undefined
 
+    const __path = replacePatter(path)
+
     if (
-      (typeof pathKeys === 'string' && path === pathKeys) ||
-      (Array.isArray(pathKeys) && pathKeys.includes(path))
-    ) {
+      (typeof pathKeys === 'string' && __path === pathKeys) ||
+      (Array.isArray(pathKeys) && pathKeys.includes(__path))
+    )
       return resolution
-    }
   }
 }
 
 export function applyResolution(value: any, resolution: TypesFormDataDetail) {
   if (resolution === 'booleans') return Boolean(value)
   if (resolution === 'numbers') return Number(value)
+  if (resolution === 'files' && value instanceof File && value.size) return value
 }

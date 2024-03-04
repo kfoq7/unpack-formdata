@@ -1,5 +1,4 @@
 import { getResolution, applyResolution } from './resolution'
-import { formToArrayEntries } from './utils'
 
 /**
  * Keys input form data
@@ -43,9 +42,7 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
   options?: UnpackOptions
 ): T {
   const output: any = {}
-
-  const formArrayEntries = formToArrayEntries(formData)
-  let formEntries: [string, any][] = formArrayEntries
+  const formEntries = formData.entries()
 
   for (const [pathKeys, value] of formEntries) {
     const keys = pathKeys.split('.')

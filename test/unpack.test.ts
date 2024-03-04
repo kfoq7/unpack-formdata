@@ -30,7 +30,12 @@ describe('unpack', () => {
     formData.append('nested.0.array.0', 'item1')
     formData.append('nested.0.array.1', 'item2')
     formData.append('nested.0.array.2', 'item3')
+    formData.append('nested.1.array.0', 'item1')
+    formData.append('nested.1.array.1', 'item2')
+    formData.append('nested.1.array.2', 'item3')
     const object = unpack(formData)
-    expect(object).toEqual({ nested: [{ array: ['item1', 'item2', 'item3'] }] })
+    expect(object).toEqual({
+      nested: [{ array: ['item1', 'item2', 'item3'] }, { array: ['item1', 'item2', 'item3'] }]
+    })
   })
 })

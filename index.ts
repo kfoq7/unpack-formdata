@@ -1,9 +1,12 @@
-import { getResolution, applyResolution } from './resolution'
-import { formToArrayEntries } from './utils'
+const form = document.createElement('form')
+const input = document.createElement('input')
+input.setAttribute('type', 'checkbox')
+input.setAttribute('name', 'isActive')
+form.appendChild(input)
+form.addEventListener('submit', e => {
+  console.log(e.currentTarget)
+})
 
-/**
- * Keys input form data
- */
 export type FormDataInput = string | string[]
 
 /**
@@ -12,7 +15,7 @@ export type FormDataInput = string | string[]
  * @emptyFields Ask for user to incluse empty value fields. By default, empty values are included.
  */
 export type Options = {
-  emptyFileds?: boolean
+  emptyFileds: boolean
 }
 
 /**
@@ -25,42 +28,30 @@ export type FormDataDetail = {
   numbers: FormDataInput
 }
 
-export type TypesFormDataDetail = keyof FormDataDetail
-
 export type UnpackOptions = Options & {
-  resolutions?: Partial<FormDataDetail>
+  resolutions: Partial<FormDataDetail>
 }
 
-/**
- * Unpack the entries from FormData API.
- *
- * @param formData The FormData instance or the event.currentElement.
- * @param options Set the input types
- * @returns Returns the unpacked data
- */
 export function unpack<T extends Record<string, any> = Record<string, unknown>>(
-  formData: FormData,
+  formData: FormData | HTMLFormElement,
   options?: UnpackOptions
 ): T {
   const output: any = {}
+  const resolutions = options?.resolutions
 
-  const formArrayEntries = formToArrayEntries(formData)
-  let formEntries: [string, any][] = formArrayEntries
+  const from = formData instanceof HTMLFormElement ? new FormData(formData) : formData
+  const formEntries = from.entries()
 
   for (const [pathKeys, value] of formEntries) {
     const keys = pathKeys.split('.')
     let object = output
-
-    const resolution = getResolution(pathKeys, options?.resolutions)
 
     keys.forEach((nestedKey, index) => {
       if (!object[nestedKey]) {
         object[nestedKey] = isNaN(Number(keys[index + 1])) ? {} : []
       }
 
-      const resolvedValue = resolution ? applyResolution(value, resolution) : value
-
-      index === keys.length - 1 ? (object[nestedKey] = resolvedValue) : (object = object[nestedKey])
+      index === keys.length - 1 ? (object[nestedKey] = value) : (object = object[nestedKey])
     })
   }
 

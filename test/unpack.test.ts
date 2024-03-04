@@ -13,7 +13,6 @@ describe('unpack', () => {
     const formData = new FormData()
     formData.append('nested.foo', 'hello')
     const object = unpack(formData)
-    console.log(object)
     expect(object).toEqual({ nested: { foo: 'hello' } })
   })
 

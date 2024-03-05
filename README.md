@@ -2,19 +2,15 @@
 
 Avaible for Node.
 
-### npm
+### npm, yarn and pnpm
 
 ```bash
 npm install unpack-formdata
 ```
 
-### yarn
-
 ```bash
 yarn add unpack-formdata
 ```
-
-### pnpm
 
 ```bash
 pnpm add unpack-formdata

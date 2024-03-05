@@ -5,8 +5,8 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
-    "outDir": "./dist",
-    "declaration": true,
+    "noEmit": true,
+    "esModuleInterop": true,
     "noImplicitAny": true,
     "baseUrl": ".",
     "paths": {

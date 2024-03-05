@@ -1,23 +1,57 @@
 {
   "name": "unpack-formdata",
   "description": "Unpack FormData API into a JavaScript object.",
-  "version": "0.3.1",
-  "author": "@kfoq7",
+  "version": "0.4.1",
   "license": "MIT",
-  "keywords": [],
+  "author": "Fabrizio Mostacero (@kfoq7)",
+  "keywords": [
+    "form",
+    "data",
+    "formdata",
+    "unpack",
+    "decode",
+    "unpackdata",
+    "transform"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kfoq7/unpack-formdata.git"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/unpack.d.ts",
+        "default": "./dist/unpack.js"
+      },
+      "require": {
+        "types": "./dist/unpack.d.cts",
+        "default": "./dist/unpack.cjs"
+      }
+    }
+  },
   "type": "module",
   "main": "./dist/unpack.js",
+  "types": "./dist/unpack.d.ts",
+  "files": [
+    "dist"
+  ],
+  "source": "./src/unpack.ts",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc",
-    "lint:fix": "ts-standard --fix ./src",
+    "build": "tsup --config scripts/tsup.config.ts",
+    "lint:fix": "ts-standard --fix src",
     "prettier": "prettier --write .",
     "test": "vitest"
   },
   "devDependencies": {
     "prettier": "3.2.5",
     "ts-standard": "12.0.2",
+    "tsup": "8.0.2",
     "typescript": "5.3.3",
     "vitest": "1.3.1"
+  },
+  "publishConfig": {
+    "provenance": "true"
   },
   "eslintConfig": {
     "extends": "ts-standard"

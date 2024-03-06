@@ -1,7 +1,7 @@
 {
   "name": "unpack-formdata",
   "description": "Unpack FormData API into a JavaScript object.",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "license": "MIT",
   "author": "Fabrizio M. Caceres (@kfoq7)",
   "keywords": [
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kfoq7/unpack-formdata.git"
+    "url": "git+https://github.com/kfoq7/unpack-formdata.git"
   },
   "exports": {
     ".": {
@@ -44,11 +44,11 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "prettier": "^3.2.5",
-    "ts-standard": "^12.0.2",
-    "tsup": "^8.0.2",
-    "typescript": "^5.3.3",
-    "vitest": "^1.3.1"
+    "prettier": "3.2.5",
+    "ts-standard": "12.0.2",
+    "tsup": "8.0.2",
+    "typescript": "5.3.3",
+    "vitest": "1.3.1"
   },
   "publishConfig": {
     "provenance": "true"

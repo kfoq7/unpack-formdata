@@ -1,33 +1,13 @@
-import { getResolution, applyResolution } from './resolution'
-
-/**
- * Keys input form data
- */
-export type FormDataInput = string | string[]
+import { getResolution, applyResolution, type FormDataDetail } from './resolution'
 
 /**
  * Options before unpack FormData
  *
  * @emptyFields Ask for user to incluse empty value fields. By default, empty values are included.
  */
-export type Options = {
+type Options = {
   emptyFileds?: boolean
 }
-
-/**
- * Specify the type of fields. If no type is specified, assume it is a string
- */
-export type FormDataDetail = {
-  booleans: FormDataInput
-  files: FormDataInput
-  dates: FormDataInput
-  numbers: FormDataInput
-}
-
-/**
- * Keys from FromDataDetail
- */
-export type TypesFormDataDetail = keyof FormDataDetail
 
 /**
  * Merge options with FormDataDetail

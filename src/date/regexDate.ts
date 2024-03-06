@@ -1,5 +1,6 @@
 /**
  * [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+ * regex got it from https://github.com/fabian-hiller/decode-formdata/blob/main/src/regex.ts
  */
 
 /**

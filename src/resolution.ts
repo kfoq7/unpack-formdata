@@ -1,6 +1,24 @@
-import { type TypesFormDataDetail, type FormDataDetail } from './unpack'
 import { parseDate } from './date'
 import { objectEntries, replacePatter } from './utils'
+
+/**
+ * Keys input form data
+ */
+type FormDataInput = string | string[]
+
+/**
+ * Specify the type of fields. If no type is specified, assume it is a string
+ */
+export type FormDataDetail = {
+  booleans: FormDataInput
+  numbers: FormDataInput
+  dates: FormDataInput
+}
+
+/**
+ * Keys from FromDataDetail
+ */
+export type TypesFormDataDetail = keyof FormDataDetail
 
 /**
  * Look for current resolution type of value.
@@ -31,6 +49,5 @@ export function getResolution(
 export function applyResolution(value: any, resolution: TypesFormDataDetail) {
   if (resolution === 'booleans') return Boolean(value)
   if (resolution === 'numbers') return Number(value)
-  if (resolution === 'files' && value instanceof File && value.size) return value
   if (resolution === 'dates') return parseDate(value)
 }

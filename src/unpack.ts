@@ -1,4 +1,5 @@
 import { getResolution, applyResolution, type FormDataDetail } from './resolution'
+import { removeUndefinedInArrays } from './utils'
 
 /**
  * Options before unpack FormData
@@ -6,7 +7,7 @@ import { getResolution, applyResolution, type FormDataDetail } from './resolutio
  * @emptyFields Ask for user to incluse empty value fields. By default, empty values are included.
  */
 type Options = {
-  emptyFileds?: boolean
+  removeEmptyFields?: boolean
 }
 
 /**
@@ -37,6 +38,9 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
     const resolution = getResolution(pathKeys, options?.resolutions)
 
     keys.forEach((nestedKey, index) => {
+      if (options?.removeEmptyFields && (value === '' || (value instanceof File && !value.size)))
+        return
+
       if (!object[nestedKey]) {
         object[nestedKey] = isNaN(Number(keys[index + 1])) ? {} : []
       }
@@ -45,6 +49,8 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
 
       index === keys.length - 1 ? (object[nestedKey] = resolvedValue) : (object = object[nestedKey])
     })
+
+    if (options?.removeEmptyFields) removeUndefinedInArrays(output)
   }
 
   return output

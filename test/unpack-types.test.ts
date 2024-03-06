@@ -63,4 +63,23 @@ describe('unpack-types', () => {
       iso: new Date('24-04-03T02:52:12.358Z')
     })
   })
+
+  it('should unpack data and remove empty values from object', () => {
+    const formData = new FormData()
+    formData.append('string', 'Hello world')
+    formData.append('second', '')
+    formData.append('clicked', '')
+
+    const file = new File(['Hello'], 'hello.txt')
+    formData.append('images.0.file', '')
+    formData.append('images.1.file', file)
+
+    const object = unpack(formData, {
+      removeEmptyFields: true,
+      resolutions: { booleans: 'clicked' }
+    })
+
+    console.log(object)
+    expect(object).toEqual({ string: 'Hello world', images: [{ file }] })
+  })
 })

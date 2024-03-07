@@ -36,6 +36,7 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
     let object = output
 
     const resolution = getResolution(pathKeys, options?.resolutions)
+    const resolvedValue = resolution ? applyResolution(value, resolution) : value
 
     keys.forEach((nestedKey, index) => {
       if (options?.removeEmptyFields && (value === '' || (value instanceof File && !value.size)))
@@ -44,8 +45,6 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
       if (!object[nestedKey]) {
         object[nestedKey] = isNaN(Number(keys[index + 1])) ? {} : []
       }
-
-      const resolvedValue = resolution ? applyResolution(value, resolution) : value
 
       index === keys.length - 1 ? (object[nestedKey] = resolvedValue) : (object = object[nestedKey])
     })

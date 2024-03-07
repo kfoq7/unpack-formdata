@@ -8,6 +8,12 @@ export function replacePatter(path: string) {
   return path.replace(/.\d+./g, '.$.')
 }
 
+/**
+ * Remove undefined values from arrays nested within an object.
+ *
+ * @param obj Any object as input.
+ * @returns The object with cleaned arrays containing undefined values removed.
+ */
 export function removeUndefinedInArrays(obj: Record<string, any>) {
   for (const key in obj) {
     if (typeof obj[key] === 'object' && obj[key] !== null) {

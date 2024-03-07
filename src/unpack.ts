@@ -39,7 +39,11 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
     const resolvedValue = fieldType ? applyFieldType(value, fieldType) : value
 
     keys.forEach((nestedKey, index) => {
-      if (options?.removeEmptyFields && (value === '' || (value instanceof File && !value.size)))
+      if (
+        options?.removeEmptyFields &&
+        typeof resolvedValue !== 'boolean' &&
+        (value === '' || (value instanceof File && !value.size))
+      )
         return
 
       if (!object[nestedKey]) {

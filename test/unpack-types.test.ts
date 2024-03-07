@@ -30,9 +30,18 @@ describe('unpack-types', () => {
     formData.append('hello', 'on')
     formData.append('user.age', '20')
     const object = unpack(formData, {
-      fieldsTypes: { booleans: ['hello', 'string'], numbers: 'user.age' }
+      fieldsTypes: {
+        booleans: ['hello', 'string'],
+        numbers: 'user.age'
+      }
     })
-    expect(object).toEqual({ string: true, hello: true, user: { age: 20 } })
+    expect(object).toEqual({
+      string: true,
+      hello: true,
+      user: {
+        age: 20
+      }
+    })
   })
 
   it('should unpack files', () => {
@@ -41,6 +50,19 @@ describe('unpack-types', () => {
     formData.append('file', file)
     const object = unpack(formData)
     expect(object).toEqual({ file })
+  })
+
+  it('should unpack booleans and keep the false value', () => {
+    const formData = new FormData()
+    formData.append('first', 'on')
+    formData.append('second', '')
+    const object = unpack(formData, {
+      removeEmptyFields: true,
+      fieldsTypes: {
+        booleans: ['first', 'second']
+      }
+    })
+    expect(object).toEqual({ first: true, second: false })
   })
 
   it('should unpack dates', () => {
@@ -52,7 +74,9 @@ describe('unpack-types', () => {
     formData.append('timeseconds', '02:52:12')
     formData.append('iso', '24-04-03T02:52:12.358Z')
     const object = unpack(formData, {
-      fieldsTypes: { dates: ['date', 'datetime', 'week', 'time', 'timeseconds', 'iso'] }
+      fieldsTypes: {
+        dates: ['date', 'datetime', 'week', 'time', 'timeseconds', 'iso']
+      }
     })
     expect(object).toEqual({
       date: new Date('24-04-3T00:00:00.000Z'),
@@ -64,21 +88,32 @@ describe('unpack-types', () => {
     })
   })
 
-  it('should unpack data and remove empty values from object', () => {
+  it('should unpack data and remove empty values from a form data', () => {
     const formData = new FormData()
-    formData.append('string', 'Hello world')
+    formData.append('greeting', 'Hello world')
     formData.append('second', '')
     formData.append('clicked', '')
 
-    const file = new File(['Hello'], 'hello.txt')
-    formData.append('images.0.file', '')
-    formData.append('images.1.file', file)
+    const file1 = new File([''], 'helloText.txt')
+    const file2 = new File(['Hello'], 'hello.txt')
+    formData.append('images.0.file', file1)
+    formData.append('images.1.file', file2)
 
     const object = unpack(formData, {
       removeEmptyFields: true,
-      fieldsTypes: { booleans: 'clicked' }
+      fieldsTypes: {
+        booleans: 'clicked'
+      }
     })
 
-    expect(object).toEqual({ string: 'Hello world', images: [{ file }] })
+    expect(object).toEqual({
+      greeting: 'Hello world',
+      clicked: false,
+      images: [
+        {
+          file: file2
+        }
+      ]
+    })
   })
 })

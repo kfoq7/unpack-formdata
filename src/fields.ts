@@ -21,33 +21,43 @@ export type FormDataDetail = {
 export type TypesFormDataDetail = keyof FormDataDetail
 
 /**
- * Look for current resolution type of value.
+ * Number regex.
+ */
+const NUMBER_REGEX = /^-?\d*(\.\d+)?$/u
+
+/**
+ * Look for current field type of value.
  *
  * @param path Current path
- * @param resolutions All resolutions
- * @returns Returns if the the current value has resolution type
+ * @param fieldType All types for fields
+ * @returns Returns if the the current value has field type
  */
-export function getResolution(
+export function getFieldType(
   path: string,
-  resolutions?: Partial<FormDataDetail>
+  fieldTypes?: Partial<FormDataDetail>
 ): TypesFormDataDetail | undefined {
-  if (!resolutions) return undefined
+  if (!fieldTypes) return undefined
 
   const __path = replacePatter(path)
 
-  for (const [resolution, pathKeys] of objectEntries(resolutions)) {
+  for (const [fieldType, pathKeys] of objectEntries(fieldTypes)) {
     if (!pathKeys) return undefined
 
     if (
       (typeof pathKeys === 'string' && __path === pathKeys) ||
       (Array.isArray(pathKeys) && pathKeys.includes(__path))
     )
-      return resolution
+      return fieldType
   }
 }
 
-export function applyResolution(value: any, resolution: TypesFormDataDetail) {
-  if (resolution === 'booleans') return Boolean(value)
-  if (resolution === 'numbers') return Number(value)
-  if (resolution === 'dates') return parseDate(value)
+export function applyFieldType(value: any, fieldType: TypesFormDataDetail) {
+  if (fieldType === 'booleans') return Boolean(value)
+
+  if (fieldType === 'dates') return parseDate(value)
+
+  if (fieldType === 'numbers' && NUMBER_REGEX.test(value)) {
+    const valueNumber = Number(value)
+    return valueNumber !== 0 ? valueNumber : null
+  }
 }

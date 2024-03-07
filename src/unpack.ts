@@ -1,4 +1,4 @@
-import { getResolution, applyResolution, type FormDataDetail } from './resolution'
+import { getFieldType, applyFieldType, type FormDataDetail } from './fields'
 import { removeUndefinedInArrays } from './utils'
 
 /**
@@ -14,7 +14,7 @@ type Options = {
  * Merge options with FormDataDetail
  */
 export type UnpackOptions = Options & {
-  resolutions?: Partial<FormDataDetail>
+  fieldsTypes?: Partial<FormDataDetail>
 }
 
 /**
@@ -35,8 +35,8 @@ export function unpack<T extends Record<string, any> = Record<string, unknown>>(
     const keys = pathKeys.split('.')
     let object = output
 
-    const resolution = getResolution(pathKeys, options?.resolutions)
-    const resolvedValue = resolution ? applyResolution(value, resolution) : value
+    const fieldType = getFieldType(pathKeys, options?.fieldsTypes)
+    const resolvedValue = fieldType ? applyFieldType(value, fieldType) : value
 
     keys.forEach((nestedKey, index) => {
       if (options?.removeEmptyFields && (value === '' || (value instanceof File && !value.size)))

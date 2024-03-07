@@ -5,7 +5,7 @@ describe('unpack-types', () => {
   it('should unpack booleans from checkbox input', () => {
     const formData = new FormData()
     formData.append('string', 'true')
-    const object = unpack(formData, { resolutions: { booleans: 'string' } })
+    const object = unpack(formData, { fieldsTypes: { booleans: 'string' } })
     expect(object).toEqual({ string: true })
   })
 
@@ -13,14 +13,14 @@ describe('unpack-types', () => {
     const formData = new FormData()
     formData.append('string', 'on')
     formData.append('second.0.check', '')
-    const object = unpack(formData, { resolutions: { booleans: ['string', 'second.$.check'] } })
+    const object = unpack(formData, { fieldsTypes: { booleans: ['string', 'second.$.check'] } })
     expect(object).toEqual({ string: true, second: [{ check: false }] })
   })
 
   it('should unpack numbers from inputs', () => {
     const formData = new FormData()
     formData.append('price', '9.20')
-    const object = unpack(formData, { resolutions: { numbers: 'price' } })
+    const object = unpack(formData, { fieldsTypes: { numbers: 'price' } })
     expect(object).toEqual({ price: 9.2 })
   })
 
@@ -30,7 +30,7 @@ describe('unpack-types', () => {
     formData.append('hello', 'on')
     formData.append('user.age', '20')
     const object = unpack(formData, {
-      resolutions: { booleans: ['hello', 'string'], numbers: 'user.age' }
+      fieldsTypes: { booleans: ['hello', 'string'], numbers: 'user.age' }
     })
     expect(object).toEqual({ string: true, hello: true, user: { age: 20 } })
   })
@@ -52,7 +52,7 @@ describe('unpack-types', () => {
     formData.append('timeseconds', '02:52:12')
     formData.append('iso', '24-04-03T02:52:12.358Z')
     const object = unpack(formData, {
-      resolutions: { dates: ['date', 'datetime', 'week', 'time', 'timeseconds', 'iso'] }
+      fieldsTypes: { dates: ['date', 'datetime', 'week', 'time', 'timeseconds', 'iso'] }
     })
     expect(object).toEqual({
       date: new Date('24-04-3T00:00:00.000Z'),
@@ -76,10 +76,9 @@ describe('unpack-types', () => {
 
     const object = unpack(formData, {
       removeEmptyFields: true,
-      resolutions: { booleans: 'clicked' }
+      fieldsTypes: { booleans: 'clicked' }
     })
 
-    console.log(object)
     expect(object).toEqual({ string: 'Hello world', images: [{ file }] })
   })
 })

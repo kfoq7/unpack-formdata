@@ -4,6 +4,16 @@
  */
 
 /**
+ * Digit regex.
+ */
+export const DIGIT_REGEX = /^\d+$/u
+
+/**
+ * [ISO 8601] date regex.
+ */
+export const ISO_DATE = /^\d{4}-(?:0[1-9]|1[0-2])-(?:[12]\d|0[1-9]|3[01])$/u
+
+/**
  * [ISO 8601] date-time regex.
  */
 export const ISO_DATE_TIME =

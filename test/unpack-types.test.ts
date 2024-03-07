@@ -67,24 +67,26 @@ describe('unpack-types', () => {
 
   it('should unpack dates', () => {
     const formData = new FormData()
-    formData.append('date', '24-04-03')
-    formData.append('datetime', '24-04-03T02:52')
+    formData.append('date', '2024-04-03')
+    formData.append('datetime', '2024-04-03T02:52')
     formData.append('week', '2024-W40')
     formData.append('time', '02:52')
     formData.append('timeseconds', '02:52:12')
-    formData.append('iso', '24-04-03T02:52:12.358Z')
+    formData.append('iso', '2024-04-03T02:52:12.358Z')
+
     const object = unpack(formData, {
       fieldsTypes: {
         dates: ['date', 'datetime', 'week', 'time', 'timeseconds', 'iso']
       }
     })
+
     expect(object).toEqual({
-      date: new Date('24-04-3T00:00:00.000Z'),
-      datetime: new Date('24-04-3T02:52:00.000Z'),
+      date: new Date('2024-04-03T00:00:00.000Z'),
+      datetime: new Date('2024-04-03T02:52:00.000Z'),
       week: new Date('2024-09-30T00:00:00.000Z'),
       time: new Date('1970-01-01T02:52:00.000Z'),
       timeseconds: new Date('1970-01-01T02:52:12.000Z'),
-      iso: new Date('24-04-03T02:52:12.358Z')
+      iso: new Date('2024-04-03T02:52:12.358Z')
     })
   })
 
